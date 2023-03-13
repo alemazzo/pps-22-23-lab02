@@ -14,7 +14,7 @@ object Lab extends App:
   println(positive(-2))
 
   private val valNeg: (String => Boolean) => (String => Boolean) =
-    p => s => !p(s)
+    p => !p(_)
 
   private def neg(predicate: String => Boolean): String => Boolean =
     s => !predicate(s)
