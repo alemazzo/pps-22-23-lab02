@@ -98,8 +98,10 @@ object Lab extends App:
       case Circle(r) => 2 * math.Pi * r
       case Square(s) => s * 4
 
-    def contains(shape: Shape, point: (Double, Double)) = shape match
-      case _ => 0a
+    def contains(shape: Shape, point: (Double, Double)): Boolean = shape match
+      case Rectangle(w, h) => point._1 < w && point._2 < h
+      case Circle(r) => point._1 < r && point._2 < r
+      case Square(s) => point._1 < s && point._2 < s
 
 
 
