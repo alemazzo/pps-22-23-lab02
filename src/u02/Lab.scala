@@ -63,4 +63,16 @@ object Lab extends App:
   println(p3(1, 2, false))
   println(p4(1)(2)(false))
 
+  // 5. Functional composition
+
+  println("Functional composition")
+
+  def intCompose(f: Int => Int, g: Int => Int): Int => Int = x => f(g(x))
+
+  // def intCompose(f: Int => Int, g: Int => Int): Int => Int = f(g(_))
+
+  def compose[A, B, C](f: B => C, g: A => B): A => C = x => f(g(x))
+
+
+
 
