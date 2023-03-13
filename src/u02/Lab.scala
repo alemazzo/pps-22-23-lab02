@@ -17,7 +17,7 @@ object Lab extends App:
     p => !p(_)
 
   private def neg(predicate: String => Boolean): String => Boolean =
-    s => !predicate(s)
+    !predicate(_)
 
   val emptyString: String => Boolean = _ == ""
 
