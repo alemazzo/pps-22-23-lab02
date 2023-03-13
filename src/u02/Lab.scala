@@ -12,3 +12,17 @@ object Lab extends App:
 
   println(positive(2))
   println(positive(-2))
+
+  private val valNeg: (String => Boolean) => (String => Boolean) =
+    p => s => !p(s)
+
+  private def neg(predicate: String => Boolean): String => Boolean =
+    s => !predicate(s)
+
+  val emptyString: String => Boolean = _ == ""
+
+  val notEmptyString = neg(emptyString)
+
+  println(notEmptyString("ciao"))
+  println(notEmptyString(""))
+  println(emptyString("ciao"))
