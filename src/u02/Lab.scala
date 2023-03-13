@@ -36,6 +36,31 @@ object Lab extends App:
   println(odd(3))
   println(odd(4))
 
+  // 4. Currying
 
+  println("Currying")
+
+  val p1: (Int, Int, Boolean) => Boolean = (x, y, b) => b match
+    case true => x <= y
+    case false => x > y
+
+  val p2: (Int) => (Int) => (Boolean => Boolean) =
+    x => y => p1(x, y, _)
+
+  def p3(x: Int, y: Int, b: Boolean): Boolean = p1(x, y, b)
+
+  def p4(x: Int)(y: Int)(b: Boolean): Boolean = p1(x, y, b)
+
+  // test p1 to p4
+  println(p1(1, 2, true))
+  println(p2(1)(2)(true))
+  println(p3(1, 2, true))
+  println(p4(1)(2)(true))
+
+  // false tests
+  println(p1(1, 2, false))
+  println(p2(1)(2)(false))
+  println(p3(1, 2, false))
+  println(p4(1)(2)(false))
 
 
