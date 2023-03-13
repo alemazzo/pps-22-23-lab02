@@ -1,5 +1,7 @@
 package u02
 
+import scala.annotation.tailrec
+
 object Lab extends App:
 
   private val valPositive: Int => Boolean = _ match
@@ -69,9 +71,35 @@ object Lab extends App:
 
   def intCompose(f: Int => Int, g: Int => Int): Int => Int = x => f(g(x))
 
-  // def intCompose(f: Int => Int, g: Int => Int): Int => Int = f(g(_))
-
   def compose[A, B, C](f: B => C, g: A => B): A => C = x => f(g(x))
+  // f(g(_))
+
+  // 6. GCD
+
+  println("GCD")
+
+  @tailrec
+  private def gcd(a: Int, b: Int): Int =
+    if b == 0 then a else gcd(b, a % b)
+
+  println(gcd(2, 4))
+  println(gcd(30, 50))
+
+  // 7. Shapes
+
+  enum Shape:
+    case Rectangle(width: Double, height: Double)
+    case Circle(radius: Double)
+    case Square(side: Double)
+
+  object Shape:
+    def perimeter(shape: Shape): Double = shape match
+      case Rectangle(w, h) => (w + h) * 2
+      case Circle(r) => 2 * math.Pi * r
+      case Square(s) => s * 4
+
+    def contains(shape: Shape, point: (Double, Double)) = shape match
+      case _ => 0a
 
 
 
