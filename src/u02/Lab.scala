@@ -1,8 +1,11 @@
 package u02
 
+import java.lang.Math.abs
 import scala.annotation.tailrec
 
 object Lab extends App:
+
+  // 3a. Positive val and def
 
   private val valPositive: Int => Boolean = _ match
     case n if n >= 0 => true
@@ -12,78 +15,45 @@ object Lab extends App:
     case n if n >= 0 => true
     case _ => false
 
-  println(positive(2))
-  println(positive(-2))
+  // 3b. Neg val and def
 
   private val valNeg: (String => Boolean) => (String => Boolean) =
     p => !p(_)
 
-  private def defNeg(predicate: String => Boolean): String => Boolean =
-    !predicate(_)
+  private def defNeg(p: String => Boolean): String => Boolean =
+    !p(_)
 
-  val emptyString: String => Boolean = _ == ""
+  // 3c. Generic neg
 
-  val notEmptyString = defNeg(emptyString)
-
-  println(notEmptyString("ciao"))
-  println(notEmptyString(""))
-  println(emptyString("ciao"))
-
-  private def neg[A](predicate: A => Boolean): A => Boolean =
-    !predicate(_)
-
-  val even: Int => Boolean = _ % 2 == 0
-  val odd = neg(even)
-
-  println(odd(3))
-  println(odd(4))
+  private def neg[A](p: A => Boolean): A => Boolean =
+    !p(_)
 
   // 4. Currying
 
-  println("Currying")
+  val p1: (Int, Int, Int) => Boolean = (x, y, b) =>
+    x match
+      case x if x <= y && y == b => true
+      case _ => false
 
-  val p1: (Int, Int, Boolean) => Boolean = (x, y, b) => b match
-    case true => x <= y
-    case false => x > y
-
-  val p2: (Int) => (Int) => (Boolean => Boolean) =
+  val p2: (Int) => (Int) => (Int => Boolean) =
     x => y => p1(x, y, _)
 
-  def p3(x: Int, y: Int, b: Boolean): Boolean = p1(x, y, b)
+  def p3(x: Int, y: Int, b: Int): Boolean = p1(x, y, b)
 
-  def p4(x: Int)(y: Int)(b: Boolean): Boolean = p1(x, y, b)
-
-  // test p1 to p4
-  println(p1(1, 2, true))
-  println(p2(1)(2)(true))
-  println(p3(1, 2, true))
-  println(p4(1)(2)(true))
-
-  // false tests
-  println(p1(1, 2, false))
-  println(p2(1)(2)(false))
-  println(p3(1, 2, false))
-  println(p4(1)(2)(false))
+  def p4(x: Int)(y: Int)(b: Int): Boolean = p1(x, y, b)
 
   // 5. Functional composition
-
-  println("Functional composition")
 
   def intCompose(f: Int => Int, g: Int => Int): Int => Int = x => f(g(x))
 
   def compose[A, B, C](f: B => C, g: A => B): A => C = x => f(g(x))
-  // f(g(_))
 
   // 6. GCD
 
-  println("GCD")
-
   @tailrec
-  private def gcd(a: Int, b: Int): Int =
-    if b == 0 then a else gcd(b, a % b)
-
-  println(gcd(2, 4))
-  println(gcd(30, 50))
+  private def gcd(a: Int, b: Int): Int = b match
+    case b if b == 0 => a
+    case _ => gcd(b, a % b)
 
   // 7. Shapes
 
@@ -99,10 +69,29 @@ object Lab extends App:
       case Square(s) => s * 4
 
     def contains(shape: Shape, point: (Double, Double)): Boolean = (shape, point) match
-      case (Rectangle(w, h), (x, y)) => x < w && y < h
-      case (Circle(r), (x, y)) => x < r && y < r
-      case (Square(s), (x, y)) => x < s && y < s
+      case (Rectangle(w, h), (x, y)) => abs(x) <= w / 2 && abs(y) <= h / 2
+      case (Circle(r), (x, y)) => abs(x) <= r && abs(y) <= r
+      case (Square(s), (x, y)) => abs(x) <= s / 2 && abs(y) <= s / 2
 
+  // 8. Optional
+  
+  enum Option[A]:
+    case Some(a: A)
+    case None()
 
+  object Option:
 
+    // FILTER
+    def filter[A](o: Option[A])(p: A => Boolean): Option[A] = o match
+      case Some(x) if p(x) => Some(x)
+      case _ => None()
 
+    // MAP
+    def map[A, B](o: Option[A])(m: A => B): Option[B] = o match
+      case Some(x) => Some(m(x))
+      case _ => None()
+
+    // FOLD
+    def fold[A, B](o: Option[A])(d: B)(m: A => B): B = o match
+      case Some(x) => m(x)
+      case _ => d
