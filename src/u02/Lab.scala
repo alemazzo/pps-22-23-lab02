@@ -35,7 +35,7 @@ object Lab extends App:
       case x if x <= y && y == b => true
       case _ => false
 
-  val p2: (Int) => (Int) => (Int => Boolean) =
+  val p2: Int => Int => Int => Boolean =
     x => y => p1(x, y, _)
 
   def p3(x: Int, y: Int, b: Int): Boolean = p1(x, y, b)
