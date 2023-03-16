@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 
 object Lab extends App:
 
-  // 3a. Positive val and def
+  // 3a. Positive val and def, svolto da solo
 
   private val valPositive: Int => Boolean = _ match
     case n if n >= 0 => true
@@ -15,7 +15,7 @@ object Lab extends App:
     case n if n >= 0 => true
     case _ => false
 
-  // 3b. Neg val and def
+  // 3b. Neg val and def, svolto da solo
 
   private val valNeg: (String => Boolean) => (String => Boolean) =
     p => !p(_)
@@ -23,12 +23,12 @@ object Lab extends App:
   private def defNeg(p: String => Boolean): String => Boolean =
     !p(_)
 
-  // 3c. Generic neg
+  // 3c. Generic neg, svolto da solo
 
   private def neg[A](p: A => Boolean): A => Boolean =
     !p(_)
 
-  // 4. Currying
+  // 4. Currying, svolto da solo
 
   val p1: (Int, Int, Int) => Boolean = (x, y, b) =>
     x match
@@ -42,20 +42,20 @@ object Lab extends App:
 
   def p4(x: Int)(y: Int)(b: Int): Boolean = p1(x, y, b)
 
-  // 5. Functional composition
+  // 5. Functional composition, svolto da solo
 
   def intCompose(f: Int => Int, g: Int => Int): Int => Int = x => f(g(x))
 
   def compose[A, B, C](f: B => C, g: A => B): A => C = x => f(g(x))
 
-  // 6. GCD
+  // 6. GCD, svolto da solo
 
   @tailrec
   private def gcd(a: Int, b: Int): Int = b match
     case b if b == 0 => a
     case _ => gcd(b, a % b)
 
-  // 7. Shapes
+  // 7. Shapes, svolto da solo
 
   enum Shape:
     case Rectangle(width: Double, height: Double)
@@ -73,8 +73,8 @@ object Lab extends App:
       case (Circle(r), (x, y)) => abs(x) <= r && abs(y) <= r
       case (Square(s), (x, y)) => abs(x) <= s / 2 && abs(y) <= s / 2
 
-  // 8. Optional
-  
+  // 8. Optional, svolto da solo
+
   enum Option[A]:
     case Some(a: A)
     case None()
